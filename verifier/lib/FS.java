@@ -63,7 +63,7 @@ public class FS {
 				FileInputStream fis = new FileInputStream(filename);
 				fdMap.put(fdInt, fis.getFD());
 			} else {
-				boolean append = mode == "File_Mode::Append";
+				boolean append = "File_Mode::Append".equals(mode);
 				FileOutputStream fos = new FileOutputStream(filename, append);
 				fdMap.put(fdInt, fos.getFD());
 			}
