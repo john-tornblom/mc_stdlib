@@ -1,0 +1,4 @@
+*.oal
+*.class
+*~
+/bin/
