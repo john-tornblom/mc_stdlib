@@ -26,20 +26,14 @@
  * under the License.
  *--------------------------------------------------------------------------*/
 
-#include "mc_stdlib_testing_sys_types.h"
-#include "FS_bridge.h"
-#include "Log_bridge.h"
-#include "PROC_bridge.h"
-#include "STR_bridge.h"
-#include "FS_bridge.h"
-#include "mc_stdlib_testing_sys_types.h"
-
 #include <unistd.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <string.h>
-
 #include <stdlib.h>
+
+#include "FS_bridge.h"
+
 
 /*
  * Bridge:  Open
