@@ -78,21 +78,26 @@ STR_To_Unique_Id( c_t p_value[ESCHER_SYS_MAX_STRING_LEN] )
 {
   unsigned char uuid[16];
   Escher_UniqueID_t value;
+  int matches;
   
-  sscanf(p_value,
-	 "%02hhx%02hhx%02hhx%02hhx-"
-	 "%02hhx%02hhx-"
-	 "%02hhx%02hhx-"
-	 "%02hhx%02hhx-"
-	 "%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx",
-	 &uuid[15], &uuid[14], &uuid[13], &uuid[12],
-	 &uuid[11], &uuid[10],
-	 &uuid[9], &uuid[8],
-	 &uuid[7], &uuid[6],
-	 &uuid[5], &uuid[4], &uuid[3], &uuid[2], &uuid[1], &uuid[0]);
+  matches = sscanf(p_value,
+		   "%02hhx%02hhx%02hhx%02hhx-"
+		   "%02hhx%02hhx-"
+		   "%02hhx%02hhx-"
+		   "%02hhx%02hhx-"
+		   "%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx",
+		   &uuid[15], &uuid[14], &uuid[13], &uuid[12],
+		   &uuid[11], &uuid[10],
+		   &uuid[9], &uuid[8],
+		   &uuid[7], &uuid[6],
+		   &uuid[5], &uuid[4], &uuid[3], &uuid[2], &uuid[1], &uuid[0]);
 
-  memcpy(&value, uuid, sizeof(Escher_UniqueID_t));
-    
+  if(matches == 16) {
+    memcpy(&value, uuid, sizeof(Escher_UniqueID_t));
+  } else {
+    memset(&value, 0, sizeof(Escher_UniqueID_t));
+  }
+  
   return value;
 }
 
