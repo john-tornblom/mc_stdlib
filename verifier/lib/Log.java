@@ -20,21 +20,21 @@ public class Log {
 		}
 	}
 
-	private static void Log_out(String msg) {
+	private static synchronized void Log_out(String msg) {
 		if (fd <= 2)
 			out.println(msg);
 		else
 			FS.Write_Line(fd, msg);
 	}
 
-	private static void Log_err(String msg) {
+	private static synchronized void Log_err(String msg) {
 		if (fd <= 2)
 			err.println(msg);
 		else
 			FS.Write_Line(fd, msg);
 	}
 
-	public static void Configure(String fdStr, String levelStr) {
+	public static synchronized void Configure(String fdStr, String levelStr) {
 		fd = Integer.parseInt(fdStr);
 
 		if ("Log_Level::Debug".equals(levelStr))

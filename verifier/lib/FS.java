@@ -31,7 +31,7 @@ public class FS {
 		return Close(Integer.parseInt(fdStr));
 	}
 
-	public static boolean Close(int fdInt) {
+	public static synchronized boolean Close(int fdInt) {
 		if (fdInt < 3) {
 			return false;
 		}
@@ -54,7 +54,7 @@ public class FS {
 	}
 
 	@SuppressWarnings("resource")
-	public static int Open(String filename, String mode) {
+	public static synchronized int Open(String filename, String mode) {
 		int fdInt = fdMap.size();
 
 		try {
@@ -78,7 +78,7 @@ public class FS {
 	}
 
 	@SuppressWarnings("resource")
-	public static String Read(int fdInt, int length) {
+	public static synchronized String Read(int fdInt, int length) {
 		if (!fdMap.containsKey(fdInt)) {
 			return "";
 		}
@@ -103,7 +103,7 @@ public class FS {
 	}
 
 	@SuppressWarnings("resource")
-	public static String Read_Line(int fdInt) {
+	public static synchronized String Read_Line(int fdInt) {
 		if (!fdMap.containsKey(fdInt)) {
 			return "";
 		}
@@ -135,7 +135,7 @@ public class FS {
 		return Write(Integer.parseInt(fdStr), str);
 	}
 
-	public static boolean Write(int fdInt, String str) {
+	public static synchronized boolean Write(int fdInt, String str) {
 		if (!fdMap.containsKey(fdInt)) {
 			return false;
 		}
