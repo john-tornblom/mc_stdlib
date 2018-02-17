@@ -251,7 +251,7 @@ STR_To_ASCII_Code( const i_t p_index, c_t p_str[ESCHER_SYS_MAX_STRING_LEN] )
  * Bridge:  Substring
  */
 void
-STR_Substring( const i_t p_end, const i_t p_start, c_t p_str[ESCHER_SYS_MAX_STRING_LEN] )
+STR_Substring( c_t A0xtumlsret[ESCHER_SYS_MAX_STRING_LEN], const i_t p_end, const i_t p_start, c_t p_str[ESCHER_SYS_MAX_STRING_LEN] )
 {
   /* Replace/Insert your implementation code here... */
 }
