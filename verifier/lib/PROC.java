@@ -31,7 +31,7 @@ public class PROC {
 	}
 
 	public static void Assert(boolean cond, String msg) {
-		if(!cond) {
+		if(cond) {
 			return;
 		}
 		
