@@ -199,7 +199,6 @@ c_t *
 STR_Replace( c_t A0xtumlsret[ESCHER_SYS_MAX_STRING_LEN], c_t p_new[ESCHER_SYS_MAX_STRING_LEN], c_t p_old[ESCHER_SYS_MAX_STRING_LEN], c_t p_str[ESCHER_SYS_MAX_STRING_LEN] )
 {
   char *p;
-  int i = 0;
 
   A0xtumlsret[0] = '\0';
 
@@ -250,7 +249,7 @@ STR_To_ASCII_Code( const i_t p_index, c_t p_str[ESCHER_SYS_MAX_STRING_LEN] )
 /*
  * Bridge:  Substring
  */
-void
+c_t * 
 STR_Substring( c_t A0xtumlsret[ESCHER_SYS_MAX_STRING_LEN], const i_t p_end, const i_t p_start, c_t p_str[ESCHER_SYS_MAX_STRING_LEN] )
 {
   /* Replace/Insert your implementation code here... */
