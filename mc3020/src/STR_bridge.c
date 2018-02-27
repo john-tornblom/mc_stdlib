@@ -29,12 +29,13 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <stdint.h>
 
 #include "STR_bridge.h"
 
 #define MIN(a,b) (((a)<(b))?(a):(b))
 #define MAX(a,b) (((a)>(b))?(a):(b))
-
+#define GET_BITS(v,b,m) (b < sizeof(v)*8 ? (m & (v >> b)) : 0)
 
 /*
  * Bridge:  To_Boolean
@@ -76,29 +77,34 @@ STR_To_Real( c_t p_value[ESCHER_SYS_MAX_STRING_LEN] )
 Escher_UniqueID_t
 STR_To_Unique_Id( c_t p_value[ESCHER_SYS_MAX_STRING_LEN] )
 {
-  unsigned char uuid[16];
-  Escher_UniqueID_t value;
-  int matches;
-  
-  matches = sscanf(p_value,
-		   "%02hhx%02hhx%02hhx%02hhx-"
-		   "%02hhx%02hhx-"
-		   "%02hhx%02hhx-"
-		   "%02hhx%02hhx-"
-		   "%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx",
-		   &uuid[15], &uuid[14], &uuid[13], &uuid[12],
-		   &uuid[11], &uuid[10],
-		   &uuid[9], &uuid[8],
-		   &uuid[7], &uuid[6],
-		   &uuid[5], &uuid[4], &uuid[3], &uuid[2], &uuid[1], &uuid[0]);
+  u1_t b;
+  Escher_UniqueID_t v = 0;
 
-  if(matches == 16) {
-    memcpy(&value, uuid, sizeof(Escher_UniqueID_t));
-  } else {
-    memset(&value, 0, sizeof(Escher_UniqueID_t));
+  while(*p_value) {
+    b = *p_value++;
+
+    switch(b) {
+    case '0'...'9':
+      b -= '0';
+      break;
+
+    case 'a'...'f':
+      b -= 'a';
+      b += 10;
+      break;
+
+    case 'A'...'F':
+      b -= 'A';
+      b += 10;
+    break;
+
+    default:
+      continue;
+    }
+    v = (v << 4) | (b & 0xF);
   }
-  
-  return value;
+
+  return v;
 }
 
 
@@ -145,24 +151,15 @@ STR_From_Real( c_t A0xtumlsret[ESCHER_SYS_MAX_STRING_LEN], const r_t p_value )
 c_t *
 STR_From_Unique_Id( c_t A0xtumlsret[ESCHER_SYS_MAX_STRING_LEN], Escher_UniqueID_t p_value )
 {
-  unsigned char uuid[16];
- 
-  memset(uuid, 0, sizeof(uuid));
-  memcpy(uuid, &p_value, sizeof(Escher_UniqueID_t));
-
   snprintf(A0xtumlsret,
-	   ESCHER_SYS_MAX_STRING_LEN,
-	   "%02hhx%02hhx%02hhx%02hhx-"
-	   "%02hhx%02hhx-"
-	   "%02hhx%02hhx-"
-	   "%02hhx%02hhx-"
-	   "%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx",
-	   uuid[15], uuid[14], uuid[13], uuid[12],
-	   uuid[11], uuid[10],
-	   uuid[9], uuid[8],
-	   uuid[7], uuid[6],
-	   uuid[5], uuid[4], uuid[3], uuid[2], uuid[1], uuid[0]);
-
+		  ESCHER_SYS_MAX_STRING_LEN,
+		  "%08lx-%04x-%04x-%04x-%04x%08lx",
+		  (uint64_t)GET_BITS(p_value, 96, 0xffffffff),
+		  GET_BITS(p_value, 80, 0xffff),
+		  GET_BITS(p_value, 64, 0xffff),
+		  GET_BITS(p_value, 48, 0xffff),
+		  GET_BITS(p_value, 32, 0xffff),
+		  (uint64_t)GET_BITS(p_value, 00, 0xffffffff));
   return A0xtumlsret;
 }
 
