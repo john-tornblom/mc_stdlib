@@ -80,8 +80,8 @@ FS_Read( c_t A0xtumlsret[ESCHER_SYS_MAX_STRING_LEN], const i_t p_fd, const i_t p
 {
   int length = p_length;
 
-  if(p_length > ESCHER_SYS_MAX_STRING_LEN || p_length <= 0) {
-    length = ESCHER_SYS_MAX_STRING_LEN;
+  if(p_length > ESCHER_SYS_MAX_STRING_LEN-1 || p_length <= 0) {
+    length = ESCHER_SYS_MAX_STRING_LEN-1;
   }
 
   if((length = read(p_fd, A0xtumlsret, length)) < 0) {
@@ -101,7 +101,7 @@ c_t *
 FS_Read_Line( c_t A0xtumlsret[ESCHER_SYS_MAX_STRING_LEN], const i_t p_fd )
 {
   A0xtumlsret[0] = '\0';
-  for(size_t i=0; i<=ESCHER_SYS_MAX_STRING_LEN; ++i) {
+  for(size_t i=0; i<ESCHER_SYS_MAX_STRING_LEN; ++i) {
     if(read(p_fd, &A0xtumlsret[i], 1) != 1) {
       A0xtumlsret[i] = '\0';
       break;
