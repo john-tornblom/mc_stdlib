@@ -249,7 +249,14 @@ STR_To_ASCII_Code( const i_t p_index, c_t p_str[ESCHER_SYS_MAX_STRING_LEN] )
 c_t * 
 STR_Substring( c_t A0xtumlsret[ESCHER_SYS_MAX_STRING_LEN], const i_t p_end, const i_t p_start, c_t p_str[ESCHER_SYS_MAX_STRING_LEN] )
 {
-  /* Replace/Insert your implementation code here... */
+  size_t start = MAX(p_start, 0);
+  size_t end = MAX(p_end, 0);
+  size_t length = MAX(end - start, 0);
+
+  length = MIN(length, ESCHER_SYS_MAX_STRING_LEN - start - 1);
+  memcpy(A0xtumlsret, p_str + start, length);
+  A0xtumlsret[length] = '\0';
+  return A0xtumlsret;
 }
 
 
